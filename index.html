@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WebUnlok</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      margin: 0;
+      min-height: 100vh;
+    }
+    h1 {
+      color: #1a73e8;
+      margin-bottom: 10px;
+    }
+    h3 {
+      color: #555;
+      margin-top: 0;
+      margin-bottom: 0px;
+    }
+    .input-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+    input[type="url"] {
+      flex-grow: 1;
+      padding: 10px 15px;
+      font-size: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      transition: border-color 0.3s ease;
+    }
+    input[type="url"]:focus {
+      outline: none;
+      border-color: #1a73e8;
+      box-shadow: 0 0 8px rgba(26, 115, 232, 0.3);
+    }
+    button.btn {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button.btn:hover {
+      background-color: #155bb5;
+    }
+    #object-container {
+      width: 100%;
+      max-width: 1000px;
+      height: 600px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      background: white;
+      display: none;
+      position: relative;
+    }
+    #object-container object {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    #fullscreenBtn, #openBlankBtn {
+      position: absolute;
+      top: 10px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    #fullscreenBtn {
+      right: 10px;
+    }
+    #openBlankBtn {
+      right: 120px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hi! Welcome to WebUnlok</h1>
+  <h3>Enter a URL and click emulate, to emulate the site!</h3>
+  <h5>Highly recommended that you play in about:blank</h5>
+  <h5>*WIP*</h5>
+
+  <div class="input-container">
+    <input type="url" id="urlInput" placeholder="https://example.com" value="" />
+    <button class="btn" id="emulate">Emulate</button>
+  </div>
+
+  <div id="object-container">
+    <button id="openBlankBtn">Open in about:blank</button>
+    <!--button id="fullscreenBtn">Fullscreen</button-->
+    <object id="webObject" type="text/html" data=""></object>
+  </div>
+
+  <script>
+    const emulateBtn = document.getElementById('emulate');
+    const urlInput = document.getElementById('urlInput');
+    const objectContainer = document.getElementById('object-container');
+    const webObject = document.getElementById('webObject');
+    //const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const openBlankBtn = document.getElementById('openBlankBtn');
+
+    let blankWindow = null;
+
+    emulateBtn.addEventListener('click', () => {
+      let url = urlInput.value.trim();
+      if (!url) {
+        alert('enter a url please');
+        return;
+      }
+      if (!/^https?:\/\//i.test(url)) {
+        url = 'https://' + url;
+      }
+      webObject.data = url;
+      objectContainer.style.display = 'block';
+      setTimeout(() => {
+        objectContainer.scrollIntoView();
+      }, 100);
+    });
+
+    openBlankBtn.addEventListener('click', () => {
+      let url = urlInput.value.trim();
+      if (!url) {
+        alert('enter a url please');
+        return;
+      }
+      if (!/^https?:\/\//i.test(url)) {
+        url = 'https://' + url;
+      }
+
+      blankWindow = window.open('about:blank', '_blank');
+      if (blankWindow) {
+      blankWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>WebUnlok Emulated</title>
+          <style>
+            html, body {
+              margin: 0;
+              padding: 0;
+              height: 100%;
+              width: 100%;
+              overflow: hidden;
+              background: white;
+            }
+            object {
+              width: 100%;
+              height: 100%;
+              border: none;
+            }
+          </style>
+        </head>
+        <body>
+          <object type="text/html" data="${url}"></object>
+        </body>
+        </html>
+      `);
+        blankWindow.document.close();
+      } else {
+        alert('Popup was blocked. Please allow popups for this site!');
+      }
+    });
+  </script>
+</body>
+</html>
