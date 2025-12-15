@@ -24,6 +24,11 @@
       margin-top: 0;
       margin-bottom: 0px;
     }
+    a {
+      color: #305CDE;
+      margin-top: 0;
+      margin-bottom: 0px;
+    }
     .input-container {
       display: flex;
       gap: 10px;
@@ -94,33 +99,31 @@
   </style>
 </head>
 <body>
-  <h1>Hi! Welcome to WebUnlok</h1>
-  <h3>Enter a URL and click emulate, to emulate the site!</h3>
-  <h5>Highly recommended that you play in about:blank</h5>
-  <h5>*WIP*</h5>
+  <h1>Hello, welcome to WebUnlok</h1>
+  <h3>WebUnlok is an experimental site, to bypass GoGuardian restrictions. The source code is on my</h3> <a href="https://github.com/rigbygilman/WebUnlok">GitHub</a>
+  <h3>Enter a URL, then press go, to go to the site</h3>
+  <h5>PLEASE play about:blank</h5>
 
   <div class="input-container">
     <input type="url" id="urlInput" placeholder="https://example.com" value="" />
-    <button class="btn" id="emulate">Emulate</button>
+    <button class="btn" id="go">go</button>
   </div>
 
   <div id="object-container">
-    <button id="openBlankBtn">Open in about:blank</button>
-    <!--button id="fullscreenBtn">Fullscreen</button-->
+    <button id="openBlankBtn">about:blank</button>
     <object id="webObject" type="text/html" data=""></object>
   </div>
 
   <script>
-    const emulateBtn = document.getElementById('emulate');
+    const goBtn = document.getElementById('go');
     const urlInput = document.getElementById('urlInput');
     const objectContainer = document.getElementById('object-container');
     const webObject = document.getElementById('webObject');
-    //const fullscreenBtn = document.getElementById('fullscreenBtn');
     const openBlankBtn = document.getElementById('openBlankBtn');
 
     let blankWindow = null;
 
-    emulateBtn.addEventListener('click', () => {
+    goBtn.addEventListener('click', () => {
       let url = urlInput.value.trim();
       if (!url) {
         alert('enter a url please');
@@ -152,7 +155,7 @@
         <!DOCTYPE html>
         <html>
         <head>
-          <title>WebUnlok Emulated</title>
+          <title>very cool homework</title>
           <style>
             html, body {
               margin: 0;
@@ -181,4 +184,7 @@
     });
   </script>
 </body>
+<footer>
+  <h4>Made by the creator of Sovva Studios, I.E. Rigby Gilman</h4>
+</footer>
 </html>
